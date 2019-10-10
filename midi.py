@@ -10,16 +10,19 @@ class Midi:
         b = self.f.read(1)
         if b == '\x99':
             # read which type of drum was hit with what strength
-            drum, pitch = self.f.read(2)
+            note, pitch = self.f.read(2)
 
             # define the kind of drum
-            drumName = ''
-            if drum in drums:
-                drumName = drums[drum]
-            elif drum in cymbals:
-                drumName = cymbals[drum]
+            drumName = None
+            if note in drums:
+                drumName = drums[note]
+            elif note in cymbals:
+                drumName = cymbals[note]
             else:
                 drumName = 'undefined'
+                # debug
+                print(hex(ord(note)))
+                return
 
             # handle note on/off event
             # note on
