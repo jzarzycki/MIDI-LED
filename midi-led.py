@@ -1,10 +1,11 @@
 from midi import Midi
 from led import Led
+import board
 
 midi_file = '/dev/snd/midiC1D0'
 midi = Midi(midi_file)
 
-led_pin = 18
+led_pin = board.D18
 led_count = 60
 
 led = Led(led_pin, led_count)

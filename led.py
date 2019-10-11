@@ -1,36 +1,28 @@
 import time
-from neopixel import *
+import neopixel
 import threading
 from math import sin, pi
-
-LED_FREQ_HZ    = 800000
-LED_DMA        = 10
-LED_INVERT     = False
-LED_BRIGHTNESS = 10
-LED_CHANNEL    = 0
 
 class Led:
     def __init__(self, pin, led_count):
         self.led_count = led_count
         self.pin = pin
-        self.strip = Adafruit_NeoPixel(led_count, pin, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-        self.strip.begin()
+        self.strip = neopixel.NeoPixel(self.pin, self.led_count, auto_write=False)
 
     def colorWipe(self, color):
         for i in range(self.led_count):
-            self.strip.setPixelColor(i, color)
+            self.strip[i] = color
             wait_ms=10
             time.sleep(wait_ms/1000.0)
 
     def clear(self):
-        self.colorWipe(Color(0,0,0))
+        self.colorWipe((0,0,0))
 
     def flash(self, brightness):
         steps = 20
         for i in range(steps):
-            var = sin(float(i) / steps * pi)
-            brightness = int(255 * var)
-            self.strip.setBrightness(brightness)
+            brightness = sin(float(i) / steps * pi)
+            self.strip.brightness = brightness
             wait_ms=5
             time.sleep(wait_ms/1000.0)
 
@@ -39,19 +31,25 @@ class Led:
         # color is in GRB format
         brightness = pitch * 2
         if note == 'snare':
-            color = Color(brightness,brightness,brightness)
+            color = (brightness,brightness,brightness)
         elif note == 'kick':
             process = threading.Thread(target=self.flash, args=(brightness,))
             process.start()
             return
         elif note == 'tom1':
-            color = Color(brightness,0,brightness)
+            color = (brightness, 0, brightness)
+            process = threading.Thread(target=self.flash, args=(brightness,))
+            process.start()
         elif note == 'tom2':
-            color = Color(brightness/2,0,brightness)
+            color = (brightness // 2,0,brightness)
+            process = threading.Thread(target=self.flash, args=(brightness,))
+            process.start()
         elif note == 'tom3':
-            color = Color(0,0,brightness)
+            color = (0, 0, brightness)
+            process = threading.Thread(target=self.flash, args=(brightness,))
+            process.start()
         else:
-            color = Color(0,0,brightness)
+            color = (0,0,brightness)
         process = threading.Thread(target=self.colorWipe, args=(color,))
         process.start()
 
