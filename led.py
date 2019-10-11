@@ -1,11 +1,12 @@
 import time
 from neopixel import *
-import multiprocessing as mp
+import threading
+from math import sin, pi
 
 LED_FREQ_HZ    = 800000
 LED_DMA        = 10
 LED_INVERT     = False
-LED_BRIGHTNESS = 255
+LED_BRIGHTNESS = 10
 LED_CHANNEL    = 0
 
 class Led:
@@ -14,40 +15,45 @@ class Led:
         self.pin = pin
         self.strip = Adafruit_NeoPixel(led_count, pin, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
         self.strip.begin()
-        self.output = mp.Queue()
 
     def colorWipe(self, color):
         for i in range(self.led_count):
             self.strip.setPixelColor(i, color)
-        self.strip.show()
-            # wait_ms=10
-            # time.sleep(wait_ms/1000.0)
-
-    def colorWipeMulti(self, strip_len, color, output):
-        for i in range(strip_len):
-            output.put((i,color))
-            wait_ms=20
+            wait_ms=10
             time.sleep(wait_ms/1000.0)
 
     def clear(self):
         self.colorWipe(Color(0,0,0))
 
+    def flash(self, brightness):
+        steps = 20
+        for i in range(steps):
+            var = sin(float(i) / steps * pi)
+            brightness = int(255 * var)
+            self.strip.setBrightness(brightness)
+            wait_ms=5
+            time.sleep(wait_ms/1000.0)
+
+
     def startAnimation(self, note, pitch):
+        # color is in GRB format
         brightness = pitch * 2
         if note == 'snare':
             color = Color(brightness,brightness,brightness)
         elif note == 'kick':
-            color = Color(0,brightness,0)
-        elif note == 'hi-hat closed':
+            process = threading.Thread(target=self.flash, args=(brightness,))
+            process.start()
+            return
+        elif note == 'tom1':
+            color = Color(brightness,0,brightness)
+        elif note == 'tom2':
+            color = Color(brightness/2,0,brightness)
+        elif note == 'tom3':
             color = Color(0,0,brightness)
         else:
-            color = Color(brightness,0,0)
-        process = mp.Process(target=self.colorWipeMulti, args=(self.led_count, color, self.output))
+            color = Color(0,0,brightness)
+        process = threading.Thread(target=self.colorWipe, args=(color,))
         process.start()
 
     def animate(self):
-        if self.output.qsize():
-            while self.output.qsize():
-                i, color = self.output.get()
-                self.strip.setPixelColor(i, color)
-            self.strip.show()
+        self.strip.show()
