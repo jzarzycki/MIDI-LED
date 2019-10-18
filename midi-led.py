@@ -4,8 +4,7 @@ from midi import Midi
 
 led_pin = board.D18
 led_count = 60
-led = Led(led_pin, led_count)
-led.clear()
+led = Led(led_pin, led_count, (127,0,0))
 
 midi_file = '/dev/snd/midiC1D0'
 midi = Midi(midi_file)
