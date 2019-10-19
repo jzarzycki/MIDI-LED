@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import board
 from led import Led
 from midi import Midi
@@ -9,11 +11,12 @@ led = Led(led_pin, led_count, (127,0,0))
 midi_file = '/dev/snd/midiC1D0'
 midi = Midi(midi_file)
 
-while True:
-    midi_input = midi.read()
-    led.animate()
+if __name__ == '__main__':
+    while True:
+        midi_input = midi.read()
+        led.animate()
 
-    if midi_input:
-        note, pitch = midi_input
-        print(note, pitch)
-        led.start_animation(note, pitch)
+        if midi_input:
+            note, pitch = midi_input
+            print(note, pitch)
+            led.start_animation(note, pitch)
