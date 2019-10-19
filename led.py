@@ -27,14 +27,14 @@ class Led:
             Thread(target=animations.color_from_middle, args=(self, color, pitch, self.current_id1)).start()
         elif note == 'kick':
             Thread(target=animations.flash, args=(self, pitch,)).start()
-            if self.default_color == (127, 0, 0):
-                new_default_color = (0, 0, 127)
-            elif self.default_color == (0, 0, 127):
-                new_default_color = (127, 0, 0)
-            for i, color in enumerate(self.strip):
-                if color == self.default_color:
-                    self.strip[i] = new_default_color
-            self.default_color = new_default_color
+            #if self.default_color == (127, 0, 0):
+            #    new_default_color = (0, 0, 127)
+            #elif self.default_color == (0, 0, 127):
+            #    new_default_color = (127, 0, 0)
+            #for i, color in enumerate(self.strip):
+            #    if color == self.default_color:
+            #        self.strip[i] = new_default_color
+            #self.default_color = new_default_color
             return
         else:
             if self.default_color == (127, 0, 0):
