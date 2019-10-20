@@ -15,9 +15,7 @@ leds.show_animations()
 
 if __name__ == '__main__':
     while True:
-        midi_input = midi.read()
-
-        if midi_input:
-            pitch, velocity = midi_input
-            print(pitch, velocity)
-            handle_input(leds, pitch, velocity)
+        note_info = midi.read()
+        if note:
+            print(note_info)
+            handle_input(leds, note_info)
