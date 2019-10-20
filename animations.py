@@ -7,9 +7,6 @@ def color_wipe(led, color):
         wait_ms = 10
         sleep(wait_ms / 1000.0)
 
-def clear(led):
-    led.color_wipe((0,0,0))
-
 def flash(led, velocity):
     steps = 20
     for i in range(steps):
@@ -20,7 +17,7 @@ def flash(led, velocity):
         sleep(wait_ms / 1000.0)
     brightness = led.default_brightness
 
-def color_from_middle(led, color, velocity, my_id, width=15, duration_ms = 100):
+def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
     middle = led.led_count // 2
     offset = led.led_count % 2
     length = int(velocity / 127 * width)
@@ -29,24 +26,17 @@ def color_from_middle(led, color, velocity, my_id, width=15, duration_ms = 100):
         led.strip[middle] = color
         sleep(duration_ms/length/2 / 1000.0)
     for i in range(length):
-        if my_id == led.current_id1:
-            led.strip[middle + i + offset] = color
-            led.strip[middle - i - 1] = color
-            sleep(duration_ms/length/2 / 1000.0)
+        led.strip[middle + i + offset] = color
+        led.strip[middle - i - 1] = color
+        sleep(duration_ms/length/2 / 1000.0)
     start = middle - length
     for i in range(length):
-        if my_id == led.current_id1:
-            led.strip[start + i] = led.default_color
-            led.strip[start + 2*length - i] = led.default_color
-            sleep(duration_ms/length/2 / 1000.0)
-        else:
-            if(i != length-1):
-                led.strip[start + i] = led.default_color
-                led.strip[start + 2*length - i] = led.default_color
-    if my_id == led.current_id1:
-        led.strip[middle] = led.default_color
+        led.strip[start + i] = led.default_color
+        led.strip[start + 2*length - i] = led.default_color
+        sleep(duration_ms/length/2 / 1000.0)
+    led.strip[middle] = led.default_color
 
-def color_from_rear(led, color, velocity, my_id, width=15, duration_ms = 100):
+def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
     length = int(velocity / 127 * width)
     if length < 5:
         length = 5
@@ -54,16 +44,10 @@ def color_from_rear(led, color, velocity, my_id, width=15, duration_ms = 100):
         length = 15
     led.current_len2 = length
     for i in range(length):
-        if my_id == led.current_id2:
-            led.strip[i] = color
-            led.strip[led.led_count - i - 1] = color
-            sleep(duration_ms/length/2 / 1000.0)
+        led.strip[i] = color
+        led.strip[led.led_count - i - 1] = color
+        sleep(duration_ms/length/2 / 1000.0)
     for i in range(length):
-        if my_id == led.current_id2:
-            led.strip[length - i - 1] = led.default_color
-            led.strip[led.led_count - length + i] = led.default_color
-            sleep(duration_ms/length/2 / 1000.0)
-        else:
-            if(i != length-1):
-                led.strip[i] = led.default_color
-                led.strip[led.led_count - i - 1] = led.default_color
+        led.strip[length - i - 1] = led.default_color
+        led.strip[led.led_count - length + i] = led.default_color
+        sleep(duration_ms/length/2 / 1000.0)
