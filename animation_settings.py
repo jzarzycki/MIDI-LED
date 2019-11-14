@@ -1,28 +1,27 @@
-import animations
-
 settings = {
-    "snare": {
-        "animation": animations.color_from_middle,
-        "args": ((255, 255, 255), ),
-        "multiplier": 1
+    "snare":
+    {
+        "color_from_middle": ((255, 255, 255), ),
+        "flash": (10,)
     },
-    "kick": {
-        "animation": animations.flash
+    "kick":
+    {
+        "flash": (10,)
     },
-    "tom1": {
-        "animation": animations.color_from_middle,
-        "args": ((0, 0, 255), ),
+    "tom1":
+    {
+        "color_from_middle": ((0, 0, 255), ),
     },
-    "tom2": {
-        "animation": animations.color_from_middle,
-        "args": ((0, 127, 127), ),
+    "tom2":
+    {
+        "color_from_middle": ((0, 127, 127), ),
     },
-    "tom3": {
-        "animation": animations.color_from_middle,
-        "args": ((0, 255, 0), ),
+    "tom3":
+    {
+        "color_from_middle": ((0, 255, 0), ),
     },
-    "ride head": {
-        "animation": animations.color_from_rear,
-        "args": ((0, 255, 0), ),
-    },
+    "ride head":
+    {
+        "color_from_rear": ((0, 255, 0), ),
+    }
 }

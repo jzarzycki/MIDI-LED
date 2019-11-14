@@ -1,17 +1,11 @@
 from threading import Thread
-from animation_settings import settings
+from animations import functions
 
-def handle_input(led, note_info):
-    pitch, velocity = note_info
-    if pitch in settings.keys():
-        setting = settings[pitch]
-        animation = setting['animation']
-        args = (led, velocity)
-
-        keys = setting.keys()
-        if "args" in keys:
-            args += setting["args"]
-        elif "multipier" in keys:
-            pass
-
-        Thread(target=animation, args=args).start()
+def handle_input(led, note_info, settings):
+    note, strength = note_info
+    if note in settings.keys():
+        setting = settings[note]
+        for animation_name, arg in setting.items():
+            animation = functions[animation_name]
+            args = (led, strength) + arg
+            Thread(target=animation, args=args).start()

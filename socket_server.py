@@ -3,16 +3,20 @@
 import socket
 import json
 
-HOST = '192.168.1.14'
-PORT = 65432            # Port to listen on (non-privileged ports are > 1023)
+__HOST__ = '192.168.1.19'
+__PORT__ = 65432            # can use ports starting from 1024
+__data__ = {}
 
-def handle_data(data):
+def init(data):
+    __data__ = data
+
+def __handle_data__(data):
     print(data)
     # print(drums)
 
 def run_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
+        s.bind((__HOST__, __PORT__))
         s.listen()
         while True:
             data = None
@@ -25,7 +29,7 @@ def run_server():
                         break
                     conn.sendall(b'ok')
                     obj = json.loads(data)
-                    handle_data(obj)
+                    __handle_data__(obj)
                     # if data == b'end_conn':
                     #     conn.sendall(b'Goodbye from Windows\n')
                     #     conn.close()

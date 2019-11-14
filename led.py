@@ -15,11 +15,6 @@ class Led:
 
         self.refresh_strip = False
 
-        self.current_id1 = 0
-        self.current_id2 = 0
-        self.current_len1 = 0
-        self.current_len2 = 0
-
     def clear(self):
         for i in range(len(self.strip)):
             self.strip[i] = self.default_color

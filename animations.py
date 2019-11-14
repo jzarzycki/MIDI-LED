@@ -19,7 +19,7 @@ def flash(led, velocity, wait_ms=10, steps = 10):
         t += wait_ms / 1000.0
     led.strip.brightness = led.default_brightness
 
-def fade(x, y, nr, out_of):
+def __fade__(x, y, nr, out_of):
     li = []
     for i, j in zip(x, y):
         li.append(int(i - (i-j)*(nr/out_of)))
@@ -39,8 +39,7 @@ def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
             pass
         t += wait_ms / 1000.0
     for i in range(length):
-        new_color = fade(color, led.default_color, i + 1, length)
-        print(new_color)
+        new_color = __fade__(color, led.default_color, i + 1, length)
         led.strip[middle + i + offset] = new_color
         led.strip[middle - i - 1] = new_color
         while t > time():
@@ -75,3 +74,10 @@ def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
         while t > time():
             pass
         t += wait_ms / 1000.0
+
+functions = {
+    "flash": flash,
+    "color_from_middle": color_from_middle,
+    "color_from_rear": color_from_rear,
+    "color_wipe": color_wipe,
+}

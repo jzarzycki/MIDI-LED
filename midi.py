@@ -4,13 +4,13 @@ class Midi:
     def __init__(self, file):
        self.f = open(file, mode='rb')
 
-    def note_event(self):
+    def check_for_note_event(self):
         byte = self.f.read(1)
         if byte == b'\x99':
             return True
 
     def read(self):
-        if self.note_event():
+        if self.check_for_note_event():
             # read which type of drum was hit (pitch)
             # and with what strength (velocity)
             pitch, velocity = self.f.read(2)
