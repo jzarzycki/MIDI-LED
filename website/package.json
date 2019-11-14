@@ -1,7 +1,7 @@
 {
   "name": "midi-led-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server that handles ccommunication between the website and midi-led program",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +13,10 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "net": "^1.0.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jzarzycki/MIDI-LED/tree/master/website"
   }
 }
