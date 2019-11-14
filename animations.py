@@ -1,5 +1,5 @@
-from time import sleep
-from math import sin, pi
+from time import time, sleep
+from math import sin, pi, sqrt
 
 def color_wipe(led, color):
     for i in range(led.led_count):
@@ -7,47 +7,71 @@ def color_wipe(led, color):
         wait_ms = 10
         sleep(wait_ms / 1000.0)
 
-def flash(led, velocity):
-    steps = 20
+def flash(led, velocity, wait_ms=10, steps = 10):
+    t = time()
     for i in range(steps):
         percent = sin(i / steps * pi)
         brightness = velocity/127 * (1 - led.default_brightness) + led.default_brightness
         led.strip.brightness = brightness * percent
-        wait_ms=5
-        sleep(wait_ms / 1000.0)
-    brightness = led.default_brightness
+
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
+    led.strip.brightness = led.default_brightness
+
+def fade(x, y, nr, out_of):
+    li = []
+    for i, j in zip(x, y):
+        li.append(int(i - (i-j)*(nr/out_of)))
+    return tuple(li)
 
 def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
+    t = time()
     middle = led.led_count // 2
     offset = led.led_count % 2
     length = int(velocity / 127 * width)
-    led.current_len1 = length
+    if length == 0:
+        length = 3
+    wait_ms = duration_ms / (2*length)
     if offset:
         led.strip[middle] = color
-        sleep(duration_ms/length/2 / 1000.0)
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
     for i in range(length):
-        led.strip[middle + i + offset] = color
-        led.strip[middle - i - 1] = color
-        sleep(duration_ms/length/2 / 1000.0)
+        new_color = fade(color, led.default_color, i + 1, length)
+        print(new_color)
+        led.strip[middle + i + offset] = new_color
+        led.strip[middle - i - 1] = new_color
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
     start = middle - length
     for i in range(length):
         led.strip[start + i] = led.default_color
         led.strip[start + 2*length - i] = led.default_color
-        sleep(duration_ms/length/2 / 1000.0)
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
     led.strip[middle] = led.default_color
 
 def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
+    t = time()
     length = int(velocity / 127 * width)
+    wait_ms = duration_ms / (2*length)
     if length < 5:
         length = 5
     if length > 15:
         length = 15
-    led.current_len2 = length
     for i in range(length):
         led.strip[i] = color
         led.strip[led.led_count - i - 1] = color
-        sleep(duration_ms/length/2 / 1000.0)
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
     for i in range(length):
         led.strip[length - i - 1] = led.default_color
         led.strip[led.led_count - length + i] = led.default_color
-        sleep(duration_ms/length/2 / 1000.0)
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
