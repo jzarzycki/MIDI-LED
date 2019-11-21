@@ -4,7 +4,7 @@ import board
 from threading import Thread
 
 from led import Led
-from midi import Midi
+from midi import Midi, get_midi_file_name
 
 from animation_manager import handle_input
 from animation_settings import settings # get rid of it?
@@ -17,8 +17,11 @@ led_pin = board.D18
 led_count = 60
 leds = Led(led_pin, led_count, (127,0,0))
 
-midi_file = '/dev/snd/midiC1D0'
+midi_file = ''
+while midi_file == '':
+    midi_file = get_midi_file_name()
 midi = Midi(midi_file)
+
 leds.show_animations()
 
 if __name__ == '__main__':
