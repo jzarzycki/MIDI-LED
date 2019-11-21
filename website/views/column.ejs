@@ -1,0 +1,53 @@
+<style>
+    #columns {
+        column-width: 320px;
+        column-gap: 15px;
+        width: 100%;
+        max-width: 1100px;
+        margin: 50px auto;
+    }
+    div#columns figure {
+        width: 256;
+        background: #fefefe;
+        border: 2px solid #fcfcfc;
+        box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+        padding: 34px;
+        display: inline-block;
+    }
+</style>
+
+<div id="columns">
+    <% for (let trigger in drums){ %>
+    <figure>
+        <div class="group">
+            <h1><%= trigger %></h1>
+            <% for (let animation in drums[trigger]){ %>
+                <li class=<%= animation %>>
+                    <span><%= animation %></span>
+                    <span data-value=<%= drums[trigger][animation] %>><%= drums[trigger][animation] %></span>
+                    <form action=<%= "delete?trigger=" + trigger + "&animation=" + animation %> method="post">
+                            <button>Delete</button>
+                    </form>
+                </li>
+            <% } %>
+        </div>
+    </figure>
+    <% } %>
+</div>
+
+<div class="center">
+        <% for (let trigger in drums){ %>
+            <div class="group" id=<%= trigger %>>
+                <h2><%= trigger %></h2>
+                <% for (let animation in drums[trigger]){ %>
+                    <li class=<%= animation %>>
+                        <span><%= animation %></span>
+                        <span data-value=<%= drums[trigger][animation] %>><%= drums[trigger][animation] %></span>
+                        <form action=<%= "delete?trigger=" + trigger + "&animation=" + animation %> method="post">
+                                <button>Delete</button>
+                        </form>
+                    </li>
+                <% } %>
+            </div>
+        <% } %>
+        </div>

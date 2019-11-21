@@ -1,0 +1,89 @@
+html {
+    height: 100%;
+    width: 100%;
+    background: rgb(2,0,36);
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(47,48,81,1) 50%, rgba(239,237,255,1) 100%);
+    background-repeat: repeat-y;
+    color: #CDA716;
+    text-shadow: 2px 2px #020024;
+}
+figure {
+    text-align: center;
+    text-transform : capitalize;
+    padding: 2.5%;
+    list-style: none;
+    background-color: #2F3051;
+    border: 2px solid #CDA716;
+    margin: 15px 5%;
+    transition: 0.3s;
+}
+
+figure button {
+    border: none;
+    cursor: pointer;
+    background-color: #CDA716;
+    color: #EFEDFF;
+    margin-top: 10px;
+    width: 60px;
+    height: 20px;
+    box-shadow: 2px 2px 1px #020024;
+}
+figure span {
+    color: #EFEDFF;
+}
+
+input[type="color"] {
+    display: none;
+}
+
+#inputForm {
+    margin: 2.5% 0%;
+    font-weight: 800;
+    width: 100%;
+    max-width: 1200px;
+}
+#columns {
+    column-width: 220px;
+    column-gap: 36px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+#inputForm  div {
+    float: left;  
+}
+#inputForm #settings {
+    width: 75%;
+}
+#inputForm #button {
+    width: 25%;
+}
+#inputForm #settings div {
+    margin: 0 1%;
+    margin-left: 6%;
+}
+#inputForm #button input {
+    float: right;
+    margin: 0 25%;
+}
+div#columns figure {
+    width: 250px;
+    display: inline-block;
+    padding: 6px;
+}
+
+figure:hover {
+    transform: scale(1.02);
+    box-shadow: 1px 1px 2px 2px #020024;
+}
+
+/* moblie phones and tablets */
+@media only screen and (max-width: 1024px) {
+    body {
+        font-size: 1.5rem;
+    }
+    #inputForm {
+        font-size: 2.6rem;
+    }
+}

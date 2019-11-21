@@ -1,25 +1,16 @@
 <!-- 
-    add multiple animation support
-    add deletion of animations
-    maybe add some button to edit
+    option to edit <- in progress
+    replace magic numbers and children indexing (try array.slice) with variables
+    try getting rid of global vars and using let's inside of {}
+    replace all li's and datalist with ejs loops over arrays
+    add direction selection to wave animation
+    look up the js file if remove function is necessary
+    2x2 grid on cards
+    color inputs as divs with background color and set height and width
+    center cards, maybe make them bigger so the 2x2 layout can work
  -->
 
-<style>
-    .center {
-        margin: 0 auto;
-    }
-    .group {
-        float: left;
-        text-align: center;
-        width: 15%;
-        height: 25%;
-        margin: 2.5%;
-        list-style: none;
-    }
-    input[type='color'] {
-        display: none;
-    }
-</style>
+<% include partials/header %>
 
 <datalist id="colors">
     <option value="#ffffff">
@@ -31,89 +22,62 @@
     <option value="#ff00ff">
 </datalist>
 
-<form id="inputForm" action="post" method="post">
-    <div>
-        <label for="name">Input: </label>
-        <select name="name" id="input" onchange="handleInputChange()">
-            <option value="hi-hat-closed">Closed Hi-Hat</option>
-            <option value="hi-hat-open">Open Hi-Hat</option>
-            <option value="hi-hat-close">Hi-Hat Pedal</option>
-            <option value="crash">Crash</option>
-            <option value="ride">Ride</option>
-            <option value="snare">Snare</option>
-            <option value="kick">Kick</option>
-            <option value="tom1">Tom 1</option>
-            <option value="tom2">Tom 2</option>
-            <option value="tom3">Tom 3</option>
-        </select>
-        <label for="animation">Animation: </label>
-        <select name="animation" id="animation" onchange="handleAnimationChange()">
-            <option value="flash">Flash</option>
-            <option value="wave-mid">Wave from the middle</option>
-            <option value="wave-rear">Wave from rear</option>
-            <option value="wave-left">Wave from left</option>
-            <option value="wave-right">Wave from right</option>
-        </select>
-        <div id="option">
-            <label for="percent"></label>
-            <input type="range" name="option"></input>
-            <input type="color" name="option" list="colors" disabled></input>
-            <input type="color" name="option" list="colors" disabled></input>
-            <input type="color" name="option" list="colors" disabled></input>
-            <input type="color" name="option" list="colors" disabled></input>
+<div id="inputForm">
+    <form action="post" method="post">
+        <div id='settings'>
+            <div id="triggers">
+                <label for="name">Input: </label>
+                <select name="name" id="input" onchange="changeOptionValue()">
+                    <option value="hi-hat-closed">Closed Hi-Hat</option>
+                    <option value="hi-hat-open">Open Hi-Hat</option>
+                    <option value="hi-hat-close">Hi-Hat Pedal</option>
+                    <option value="crash">Crash</option>
+                    <option value="ride">Ride</option>
+                    <option value="snare">Snare</option>
+                    <option value="kick">Kick</option>
+                    <option value="tom1">Tom 1</option>
+                    <option value="tom2">Tom 2</option>
+                    <option value="tom3">Tom 3</option>
+                </select>
+            </div>
+            <div id="animations">
+                <label for="animation">Animation: </label>
+                <select name="animation" id="animation" onchange="handleAnimationChange()">
+                    <option value="flash">Flash</option>
+                    <option value="bright-wave">Brightness Wave</option>
+                    <option value="wave">Color Wave</option>
+                    <option value="instant">Instant Color</option>
+                </select>
+            </div>
+            <div id="option">
+                <label for="percent"></label>
+                <input type="range" name="option"></input>
+                <input type="color" name="option" list="colors" disabled></input>
+                <input type="color" name="option" list="colors" disabled></input>
+                <input type="color" name="option" list="colors" disabled></input>
+                <input type="color" name="option" list="colors" disabled></input>
+            </div>
         </div>
-    </div>
-<input type="submit" value="Submit"></input>
-</form>
-
-<script>
-    const input = document.querySelector('#input');
-    const animation = document.querySelector('#animation');
-    const option = document.querySelector('#option');
-
-    function handleInputChange() {
-        console.log(input.value);
-    }
-    handleInputChange();
-
-    var sliderActiveOld = true;
-    function handleAnimationChange(){
-        // check if should show slider or color picker
-        var sliderActive = animation.value == "flash";
-        // change label and input type
-        option.children[0].textContent = sliderActive ? 'Brightness: ' : 'Colors:' ; 
-        // change inputs
-        if (sliderActive != sliderActiveOld){
-            for(var i = 1; i < option.children.length; ++i) {
-                option.children[i].toggleAttribute('disabled');
-                option.children[i].style.display = sliderActive  ? 'none' : 'block';
-            }
-            option.children[1].style.display = !sliderActive  ? 'none' : 'block';
-            sliderActiveOld = sliderActive;
-        }
-    }
-
-    function removeSetting(li){
-        let trigger = li.parentElement.id;
-        let animation = li.children[0].dataset.animation;
-        delete drums[trigger][animation];
-        console.log(x);
-    }
-</script>
-
-<div class="center">
-<% for (let trigger in drums){ %>
-    <div class="group" id=<%= trigger %>>
+        <div id='button'><input type="submit" value="Submit"></input></div>
+    </form>
+</div>
+<br>
+<div id="columns">
+    <% for (let trigger in drums){ %>
+    <figure>
         <h2><%= trigger %></h2>
         <% for (let animation in drums[trigger]){ %>
-            <li>
-                <span data-animation=<%= animation %>><%= animation %></span>
+            <li class=<%= animation %>>
+                <span><%= animation %></span>
                 <span data-value=<%= drums[trigger][animation] %>><%= drums[trigger][animation] %></span>
                 <form action=<%= "delete?trigger=" + trigger + "&animation=" + animation %> method="post">
                         <button>Delete</button>
                 </form>
             </li>
         <% } %>
-    </div>
-<% } %>
+    </figure>
+    <% } %>
 </div>
+
+<script src="app.js"></script>
+<% include partials/footer %>
