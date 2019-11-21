@@ -27,7 +27,7 @@ var drums = {
 
 function sendWithSocket(obj){
     var client = new net.Socket();
-    client.connect(65432, '192.168.1.14', function() {
+    client.connect(65432, '127.0.1.1', function() {
         client.write(JSON.stringify(obj));
     });
     client.on('data', function(data) {
