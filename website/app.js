@@ -3,8 +3,8 @@ var app = express();
 var bodyParser = require("body-parser");
 var net = require('net');
 
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set("view engine", "ejs");
 
 var drums = {
