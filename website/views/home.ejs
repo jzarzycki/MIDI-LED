@@ -1,13 +1,10 @@
 <!-- 
-    option to edit <- in progress
     replace magic numbers and children indexing (try array.slice) with variables
     try getting rid of global vars and using let's inside of {}
     replace all li's and datalist with ejs loops over arrays
     add direction selection to wave animation
-    look up the js file if remove function is necessary
     2x2 grid on cards
     color inputs as divs with background color and set height and width
-    center cards, maybe make them bigger so the 2x2 layout can work
  -->
 
 <% include partials/header %>
@@ -42,7 +39,7 @@
             </div>
             <div id="animations">
                 <label for="animation">Animation: </label>
-                <select name="animation" id="animation" onchange="handleAnimationChange()">
+                <select name="animation" id="animation" onchange="changeInputType()">
                     <option value="flash">Flash</option>
                     <option value="bright-wave">Brightness Wave</option>
                     <option value="wave">Color Wave</option>
@@ -64,12 +61,12 @@
 <br>
 <div id="columns">
     <% for (let trigger in drums){ %>
-    <figure>
+    <figure id=<%= trigger %>>
         <h2><%= trigger %></h2>
         <% for (let animation in drums[trigger]){ %>
-            <li class=<%= animation %>>
+            <li id=<%= trigger + '_' + animation %> data-value=<%= drums[trigger][animation] %>>
                 <span><%= animation %></span>
-                <span data-value=<%= drums[trigger][animation] %>><%= drums[trigger][animation] %></span>
+                <span><%= drums[trigger][animation] %></span>
                 <form action=<%= "delete?trigger=" + trigger + "&animation=" + animation %> method="post">
                         <button>Delete</button>
                 </form>

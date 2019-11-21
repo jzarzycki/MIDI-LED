@@ -62,7 +62,8 @@ app.post("/delete", function(req, res){
         obj[trigger] = null;
     }
     res.redirect('/');
-    sendWithSocket(obj)
+    console.log(obj);
+    sendWithSocket(obj);
 });
 
 app.get("*", function(req, res){

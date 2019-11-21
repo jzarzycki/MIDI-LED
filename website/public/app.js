@@ -7,32 +7,25 @@ var isSliderActive = function(){return (animation.value == "flash" || animation.
 
 var changeOptionValue;
 (changeOptionValue = function(){
-    var div = document.querySelector('#' + inputType.value)
-    if (div === null) { return }
-
-    var trigger = div.id;
-    var animation = div.children[1].className;
+    var trigger = inputType.value;
+    var anim = animation.value;
 
     var sliderActive = isSliderActive();
 
-    // add scanning for proper animation
-    var value = div.children[1].children[1].dataset.value;
-
+    var li = document.querySelector(`#${trigger}_${anim}`);
+    if(!li) { return }
+    var value = li.dataset.value;
     
     if (sliderActive) {
         option.children[1].value = value;
     } else {
         value = value.split(',').forEach(function(color, index){
-            console.log(option.children[index + 2]);
-            console.log(color);
-
             option.children[index + 2].value = color;
         });
-        
     }
 })();
 
-var handleAnimationChange;
+var changeInputType;
 (handleAnimationChange = function(){
     // check if should show slider or color picker
     var sliderActive = isSliderActive();
@@ -49,11 +42,3 @@ var handleAnimationChange;
     }
     changeOptionValue();
 })();
-
-// unnecessary?
-function removeSetting(li){
-    let trigger = li.parentElement.id;
-    let animation = li.classname;
-    delete drums[trigger][animation];
-    console.log(x);
-}

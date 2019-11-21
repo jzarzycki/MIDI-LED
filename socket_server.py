@@ -17,11 +17,12 @@ def convertColor(color):
     return tuple(result)
 
 def __handle_data__(data):
+    print(data)
     for trigger, animation in data.items():
-        for name, args in animation.items():
-            print(trigger, name, args)
-            if type(args) == list:
-                print(convertColor(args[0]))
+        if animation != None:
+            for name, args in animation.items():
+                if type(args) == list:
+                    print(convertColor(args[0]))
 
 def run_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
