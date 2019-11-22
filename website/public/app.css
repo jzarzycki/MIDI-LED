@@ -50,6 +50,13 @@ input[type="color"] {
     margin: 20px auto;
 }
 
+.colorSquare {
+    display: inline-block;
+    padding: 10px;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
 #inputForm  div {
     float: left;  
 }

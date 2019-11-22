@@ -53,7 +53,20 @@
         <% for (let animation in drums[trigger]){ %>
             <li id=<%= trigger + '_' + animation %> data-value=<%= drums[trigger][animation] %>>
                 <span><%= animation %></span>
-                <span><%= drums[trigger][animation] %></span>
+                <%
+                    let arr = drums[trigger][animation];
+                    let returnValue = '';
+                    if ( Array.isArray(arr) ) {
+                        arr.forEach((color) => { console.log(color);%>
+                            <div class = "colorSquare" style="background-color: <%= color %>"></div>
+                <%      });
+                    } else {
+                        returnValue = drums[trigger][animation];
+                    }
+                %>
+                <span>
+                    <%= returnValue %>
+                </span>
                 <form action=<%= "delete?trigger=" + trigger + "&animation=" + animation %> method="post">
                         <button>Delete</button>
                 </form>
