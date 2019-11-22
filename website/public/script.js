@@ -17,27 +17,31 @@ var changeOptionValue;
     var value = li.dataset.value;
     
     if (sliderActive) {
-        option.children[1].value = value;
+        let input = document.querySelector('input[type="range"]');
+        input.value = value;
     } else {
+        let inputs = document.querySelectorAll('input[type="color"]');
         value = value.split(',').forEach(function(color, index){
-            option.children[index + 2].value = color;
+            inputs[index].value = color;
         });
     }
 })();
 
 var changeInputType;
-(handleAnimationChange = function(){
+(changeInputType = function(){
     // check if should show slider or color picker
     var sliderActive = isSliderActive();
     // change label and input type
-    option.children[0].textContent = sliderActive ? 'Brightness: ' : 'Colors:' ; 
+    var label = document.querySelector('#option label');
+    label.textContent = sliderActive ? 'Brightness: ' : 'Colors:' ; 
     // hide and disable unwanted inputs
+    var inputs = document.querySelectorAll('#option input');
     if (sliderActive != sliderActiveOld){
-        for(var i = 1; i < option.children.length; ++i) {
-            option.children[i].toggleAttribute('disabled');
-            option.children[i].style.display = sliderActive ? 'none' : 'inline';
+        for(var i = 0; i < inputs.length; ++i) {
+            inputs[i].toggleAttribute('disabled');
+            inputs[i].style.display = sliderActive ? 'none' : 'inline';
         }
-        option.children[1].style.display = !sliderActive  ? 'none' : 'inline';
+        inputs[0].style.display = !sliderActive  ? 'none' : 'inline';
         sliderActiveOld = sliderActive;
     }
     changeOptionValue();
