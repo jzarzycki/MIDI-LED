@@ -25,6 +25,36 @@ var drums = {
     },
 };
 
+var colors = [
+    "#ffffff",
+    "#ff0000",
+    "#00ff00",
+    "#0000ff",
+    "#ffff00",
+    "#00ffff",
+    "#ff00ff"
+];
+
+var triggers = {
+    "hi-hat-closed": "Closed Hi-Hat",
+    "hi-hat-open": "Open Hi-Hat",
+    "hi-hat-close": "Hi-Hat Pedal",
+    "crash": "Crash",
+    "ride": "Ride",
+    "snare": "Snare",
+    "kick": "Kick",
+    "tom1": "Tom 1",
+    "tom2": "Tom 2",
+    "tom3": "Tom 3",
+};
+
+var animations = {
+    "flash": "Flash",
+    "bright-wave": "Brightness Wave",
+    "wave": "Color Wave",
+    "instant": "Instant Color",
+};
+
 function sendWithSocket(obj){
     var client = new net.Socket();
     client.connect(65432, '127.0.1.1', function() {
@@ -67,7 +97,7 @@ app.post("/delete", function(req, res){
 });
 
 app.get("*", function(req, res){
-    res.render("home", {drums: drums});
+    res.render("home", {drums: drums, colors: colors, triggers: triggers, animations: animations});
 });
 
 app.listen(13579, function(){

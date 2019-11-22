@@ -1,5 +1,4 @@
 <!-- 
-    replace all li's and datalist with ejs loops over arrays
     add direction selection to wave animation
     color inputs as divs with background color and set height and width
     option to add color inputs
@@ -8,13 +7,9 @@
 <% include partials/header %>
 
 <datalist id="colors">
-    <option value="#ffffff">
-    <option value="#ff0000">
-    <option value="#00ff00">
-    <option value="#0000ff">
-    <option value="#ffff00">
-    <option value="#00ffff">
-    <option value="#ff00ff">
+<% colors.forEach((color) => { %>
+    <option value=<%= color %>>
+<% }); %>
 </datalist>
 
 <div id="inputForm">
@@ -23,25 +18,17 @@
             <div id="triggers">
                 <label for="name">Input: </label>
                 <select name="name" id="input" onchange="changeOptionValue()">
-                    <option value="hi-hat-closed">Closed Hi-Hat</option>
-                    <option value="hi-hat-open">Open Hi-Hat</option>
-                    <option value="hi-hat-close">Hi-Hat Pedal</option>
-                    <option value="crash">Crash</option>
-                    <option value="ride">Ride</option>
-                    <option value="snare">Snare</option>
-                    <option value="kick">Kick</option>
-                    <option value="tom1">Tom 1</option>
-                    <option value="tom2">Tom 2</option>
-                    <option value="tom3">Tom 3</option>
+                <% for (let key in triggers) { %>
+                    <option value=<%= key %>><%= triggers[key] %></option>
+                <% }%>
                 </select>
             </div>
             <div id="animations">
                 <label for="animation">Animation: </label>
                 <select name="animation" id="animation" onchange="changeInputType()">
-                    <option value="flash">Flash</option>
-                    <option value="bright-wave">Brightness Wave</option>
-                    <option value="wave">Color Wave</option>
-                    <option value="instant">Instant Color</option>
+                <% for (let key in animations) {%>
+                    <option value=<%= key %>><%= animations[key] %></option>
+                <% } %>
                 </select>
             </div>
             <div id="option">
@@ -56,7 +43,9 @@
         <div id='button'><input type="submit" value="Submit"></input></div>
     </form>
 </div>
+
 <br>
+
 <div id="columns">
     <% for (let trigger in drums){ %>
     <figure id=<%= trigger %>>
