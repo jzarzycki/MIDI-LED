@@ -6,8 +6,7 @@ from threading import Thread
 from led import Led
 from midi import Midi, get_midi_file_name
 
-from animation_manager import handle_input
-from animation_settings import settings # get rid of it?
+from animation_settings import settings
 
 import socket_server
 socket_server.init(settings)
@@ -30,4 +29,4 @@ if __name__ == '__main__':
         note_info = midi.read()
         if note_info:
             print(note_info)
-            handle_input(leds, note_info, settings)
+            leds.handle_input(note_info, settings)
