@@ -31,12 +31,12 @@
                 </select>
             </div>
             <div id="option">
-                <label for="percent"></label>
+                <label for="option"></label>
                 <input type="range" name="option"></input>
-                <input type="color" name="option" list="colors" disabled></input>
-                <input type="color" name="option" list="colors" disabled></input>
-                <input type="color" name="option" list="colors" disabled></input>
-                <input type="color" name="option" list="colors" disabled></input>
+                <span><input type="color" name="option" list="colors" disabled></input></span>
+                <span><input type="color" name="option" list="colors" disabled></input></span>
+                <span><input type="color" name="option" list="colors" disabled></input></span>
+                <span><input type="color" name="option" list="colors" disabled></input></span>
             </div>
         </div>
         <div id='button'><input type="submit" value="Submit"></input></div>
@@ -56,7 +56,7 @@
                     let arr = drums[trigger][animation];
                     let returnValue = '';
                     if ( Array.isArray(arr) ) {
-                        arr.forEach((color) => { console.log(color);%>
+                        arr.forEach((color) => { %>
                             <div class = "colorSquare" style="background-color: <%= color %>"></div>
                 <%      });
                     } else {

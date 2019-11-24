@@ -23,6 +23,7 @@ var changeOptionValue;
         let inputs = document.querySelectorAll('input[type="color"]');
         value = value.split(',').forEach(function(color, index){
             inputs[index].value = color;
+            handleColorChange.call(inputs[index]);
         });
     }
 })();
@@ -32,7 +33,7 @@ var changeInputType;
     // check if should show slider or color picker
     var sliderActive = isSliderActive();
     // change label and input type
-    var label = document.querySelector('#option label');
+    var label = document.querySelector('label[for="option"]');
     label.textContent = sliderActive ? 'Brightness: ' : 'Colors:' ; 
     // hide and disable unwanted inputs
     var inputs = document.querySelectorAll('#option input');
@@ -46,3 +47,11 @@ var changeInputType;
     }
     changeOptionValue();
 })();
+
+
+function handleColorChange(){
+    this.parentNode.style.backgroundColor = this.value;
+}
+document.querySelectorAll('input[type="color"]').forEach((x) => {
+    x.onchange = handleColorChange;
+});
