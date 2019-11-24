@@ -13,7 +13,7 @@ def get_midi_file_name():
 
 class Midi:
     def __init__(self, file):
-       self.f = open(file, mode='rb')
+        self.f = open(file, mode='rb')
 
     def check_for_note_event(self):
         byte = self.f.read(1)

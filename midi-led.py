@@ -20,6 +20,7 @@ leds = Led(led_pin, led_count, (127,0,0))
 midi_file = ''
 while midi_file == '':
     midi_file = get_midi_file_name()
+print(f'Opening file : {midi_file}')
 midi = Midi(midi_file)
 
 leds.show_animations()
