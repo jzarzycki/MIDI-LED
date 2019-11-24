@@ -1,9 +1,14 @@
 from time import time, sleep
 from math import sin, pi, sqrt
+from threading import Semaphore
+
+semaphore = Semaphore()
 
 def color_wipe(led, color):
     for i in range(led.led_count):
+        semaphore.acquire()
         led.strip[i] = color
+        semaphore.release()
         wait_ms = 10
         sleep(wait_ms / 1000.0)
 
@@ -12,12 +17,16 @@ def flash(led, velocity, wait_ms=10, steps = 10):
     for i in range(steps):
         percent = sin(i / steps * pi)
         brightness = velocity/127 * (1 - led.default_brightness) + led.default_brightness
+        semaphore.acquire()
         led.strip.brightness = brightness * percent
+        semaphore.release()
 
         while t > time():
             pass
         t += wait_ms / 1000.0
+    semaphore.acquire()
     led.strip.brightness = led.default_brightness
+    semaphore.release()
 
 def __fade__(x, y, nr, out_of):
     li = []
@@ -34,25 +43,33 @@ def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
         length = 3
     wait_ms = duration_ms / (2*length)
     if offset:
+        semaphore.acquire()
         led.strip[middle] = color
+        semaphore.release()
         while t > time():
             pass
         t += wait_ms / 1000.0
     for i in range(length):
         new_color = __fade__(color, led.default_color, i + 1, length)
+        semaphore.acquire()
         led.strip[middle + i + offset] = new_color
         led.strip[middle - i - 1] = new_color
+        semaphore.release()
         while t > time():
             pass
         t += wait_ms / 1000.0
     start = middle - length
     for i in range(length):
+        semaphore.acquire()
         led.strip[start + i] = led.default_color
         led.strip[start + 2*length - i] = led.default_color
+        semaphore.release()
         while t > time():
             pass
         t += wait_ms / 1000.0
+    semaphore.acquire()
     led.strip[middle] = led.default_color
+    semaphore.release()
 
 def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
     t = time()
@@ -63,14 +80,18 @@ def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
     if length > 15:
         length = 15
     for i in range(length):
+        semaphore.acquire()
         led.strip[i] = color
         led.strip[led.led_count - i - 1] = color
+        semaphore.release()
         while t > time():
             pass
         t += wait_ms / 1000.0
     for i in range(length):
+        semaphore.acquire()
         led.strip[length - i - 1] = led.default_color
         led.strip[led.led_count - length + i] = led.default_color
+        semaphore.release()
         while t > time():
             pass
         t += wait_ms / 1000.0
