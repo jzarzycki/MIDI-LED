@@ -6,9 +6,7 @@ semaphore = Semaphore()
 
 def color_wipe(led, color):
     for i in range(led.led_count):
-        semaphore.acquire()
-        led.strip[i] = color
-        semaphore.release()
+        setLedColor(i, color)
         wait_ms = 10
         sleep(wait_ms / 1000.0)
 
@@ -43,33 +41,25 @@ def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
         length = 3
     wait_ms = duration_ms / (2*length)
     if offset:
-        semaphore.acquire()
-        led.strip[middle] = color
-        semaphore.release()
+        led.setLedColor(middle, color)
         while t > time():
             pass
         t += wait_ms / 1000.0
     for i in range(length):
         new_color = __fade__(color, led.default_color, i + 1, length)
-        semaphore.acquire()
-        led.strip[middle + i + offset] = new_color
-        led.strip[middle - i - 1] = new_color
-        semaphore.release()
+        led.setLedColor(middle + i + offset, new_color)
+        led.setLedColor(middle - i - 1, new_color)
         while t > time():
             pass
         t += wait_ms / 1000.0
     start = middle - length
     for i in range(length):
-        semaphore.acquire()
-        led.strip[start + i] = led.default_color
-        led.strip[start + 2*length - i] = led.default_color
-        semaphore.release()
+        led.setLedColor(start + i, led.default_color)
+        led.setLedColor(start + 2*length - i, led.default_color)
         while t > time():
             pass
         t += wait_ms / 1000.0
-    semaphore.acquire()
-    led.strip[middle] = led.default_color
-    semaphore.release()
+    led.setLedColor(middle, led.default_color)
 
 def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
     t = time()
@@ -80,18 +70,14 @@ def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
     if length > 15:
         length = 15
     for i in range(length):
-        semaphore.acquire()
-        led.strip[i] = color
-        led.strip[led.led_count - i - 1] = color
-        semaphore.release()
+        led.setLedColor(i, color)
+        led.setLedColor(led.led_count - i - 1, color)
         while t > time():
             pass
         t += wait_ms / 1000.0
     for i in range(length):
-        semaphore.acquire()
-        led.strip[length - i - 1] = led.default_color
-        led.strip[led.led_count - length + i] = led.default_color
-        semaphore.release()
+        led.setLedColor(length - i - 1, led.default_color)
+        led.setLedColor(led.led_count - length + i, led.default_color)
         while t > time():
             pass
         t += wait_ms / 1000.0

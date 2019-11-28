@@ -1,8 +1,11 @@
 from math import sin, pi
 from threading import Thread
-from time import sleep
+from time import time
+from threading import Semaphore
 import neopixel
 from animations import functions
+
+__semaphore__ = Semaphore()
 
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
@@ -15,14 +18,23 @@ class Led:
         self.strip.brightness = self.default_brightness
         self.refresh_strip = False
 
+    def setLedColor(self, led, color):
+        __semaphore__.acquire()
+        self.strip[led] = color
+        __semaphore__.release()
+
     def clear(self):
         for i in range(len(self.strip)):
             self.strip[i] = self.default_color
 
     def __update_in_background__(self):
+        t = time()
+        wait_ms = 16
         while self.refresh_strip:
             self.strip.show()
-            sleep(0.01)
+            while t > time():
+                pass
+            t += wait_ms / 1000.0
 
     def show_animations(self):
         self.refresh_strip = True
