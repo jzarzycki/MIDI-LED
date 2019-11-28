@@ -15,10 +15,7 @@ def flash(led, velocity, wait_ms=10, steps = 10):
     for i in range(steps):
         percent = sin(i / steps * pi)
         brightness = velocity/127 * (1 - led.default_brightness) + led.default_brightness
-        semaphore.acquire()
-        led.strip.brightness = brightness * percent
-        semaphore.release()
-
+        led.setBrightness(brightness * percent)
         while t > time():
             pass
         t += wait_ms / 1000.0

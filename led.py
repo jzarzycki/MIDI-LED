@@ -5,8 +5,6 @@ from threading import Semaphore
 import neopixel
 from animations import functions
 
-__semaphore__ = Semaphore()
-
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
         self.pin = pin
@@ -17,11 +15,17 @@ class Led:
         self.default_brightness = sin(19.0/20.0*pi)
         self.strip.brightness = self.default_brightness
         self.refresh_strip = False
+        self.__semaphore__ = Semaphore()
 
     def setLedColor(self, led, color):
-        __semaphore__.acquire()
+        self.__semaphore__.acquire()
         self.strip[led] = color
-        __semaphore__.release()
+        self.__semaphore__.release()
+
+    def setBrightness(self, brightness):
+        self.__semaphore__.acquire()
+        self.strip.brightness = brightness
+        self.__semaphore__.release()
 
     def clear(self):
         for i in range(len(self.strip)):
