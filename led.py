@@ -19,22 +19,36 @@ class Led:
         self.__update_strip__()
 
         self.refresh_strip = False
-        self.__semaphore__ = Semaphore()
+        self.__color_semaphore__ = Semaphore()
+        self.__brightness_semaphore__ = Semaphore()
+        self.__multiplier_semaphore__ = Semaphore()
 
     def setLedColor(self, index, color, dim_color=True):
-        self.__semaphore__.acquire()
-        self.colors[index] = self.__dim_color__(color) if dim_color else color
-        self.__semaphore__.release()
+        self.__color_semaphore__.acquire()
+
+        if  type(index) == list:
+            for i, c in zip(index, color):
+                self.colors[i] = self.__dim_color__(c) if dim_color else c
+        else:
+            self.colors[index] = self.__dim_color__(color) if dim_color else color
+
+        self.__color_semaphore__.release()
 
     def setBrightness(self, brightness):
-        self.__semaphore__.acquire()
+        self.__brightness_semaphore__.acquire()
         self.__strip__.brightness = brightness
-        self.__semaphore__.release()
+        self.__brightness_semaphore__.release()
 
     def setMultiplier(self, index, value):
-        self.__semaphore__.acquire()
-        self.ledMultipliers[index] = value
-        self.__semaphore__.release()
+        self.__multiplier_semaphore__.acquire()
+
+        if  type(index) == list:
+            for i, v in zip(index, value):
+                self.ledMultipliers[i] = v
+        else:
+            self.ledMultipliers[index] = value
+
+        self.__multiplier_semaphore__.release()
 
     def __dim_color__(self, color):
         max_val = max(color)
@@ -44,9 +58,8 @@ class Led:
         for i, [color, multiplier] in enumerate(zip(self.colors, self.ledMultipliers)):
             self.__strip__[i] = tuple([int(multiplier * val) for val in color])
 
-    def __update_in_background__(self):
+    def __update_in_background__(self, wait_ms = 16):
         t = time()
-        wait_ms = 16
         while self.refresh_strip:
             self.__strip__.show()
             while t > time():
