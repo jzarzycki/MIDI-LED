@@ -8,7 +8,7 @@ from animations import functions
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
         self.led_count = led_count
-        self.default_color = default_color
+        self.default_color = self.__dim_color__(default_color)
         self.default_brightness = sin(19.0/20.0*pi)
 
         self.colors = [self.default_color] * led_count
@@ -21,9 +21,9 @@ class Led:
         self.refresh_strip = False
         self.__semaphore__ = Semaphore()
 
-    def setLedColor(self, index, color):
+    def setLedColor(self, index, color, dim_color=True):
         self.__semaphore__.acquire()
-        self.colors[index] = color
+        self.colors[index] = self.__dim_color__(color) if dim_color else color
         self.__semaphore__.release()
 
     def setBrightness(self, brightness):
@@ -36,6 +36,9 @@ class Led:
         self.ledMultipliers[index] = value
         self.__semaphore__.release()
 
+    def __dim_color__(self, color):
+        max_val = max(color)
+        return tuple([int(127/max_val*val) for val in color])
 
     def __update_strip__(self):
         for i, [color, multiplier] in enumerate(zip(self.colors, self.ledMultipliers)):
