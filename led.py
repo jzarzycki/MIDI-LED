@@ -7,13 +7,14 @@ from animations import functions
 
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
-        self.pin = pin
         self.led_count = led_count
-        self.strip = neopixel.NeoPixel(self.pin, self.led_count, auto_write=False)
         self.default_color = default_color
-        self.clear()
         self.default_brightness = sin(19.0/20.0*pi)
+
+        self.strip = neopixel.NeoPixel(pin, self.led_count, auto_write=False)
         self.strip.brightness = self.default_brightness
+        self.clearStrip()
+
         self.refresh_strip = False
         self.__semaphore__ = Semaphore()
 
@@ -27,7 +28,7 @@ class Led:
         self.strip.brightness = brightness
         self.__semaphore__.release()
 
-    def clear(self):
+    def clearStrip(self):
         for i in range(len(self.strip)):
             self.strip[i] = self.default_color
 
