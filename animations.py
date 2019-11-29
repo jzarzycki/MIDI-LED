@@ -20,7 +20,7 @@ def flash(led, velocity, wait_ms=10, steps = 10):
             pass
         t += wait_ms / 1000.0
     semaphore.acquire()
-    led.strip.brightness = led.default_brightness
+    led.__strip__.brightness = led.default_brightness
     semaphore.release()
 
 def __fade__(x, y, nr, out_of):

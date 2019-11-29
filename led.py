@@ -11,34 +11,37 @@ class Led:
         self.default_color = default_color
         self.default_brightness = sin(19.0/20.0*pi)
 
-        self.strip = neopixel.NeoPixel(pin, self.led_count, auto_write=False)
-        self.strip.brightness = self.default_brightness
-        self.clearStrip()
+        self.colors = [self.default_color] * led_count
+        self.ledMultipliers = [1] * led_count
+
+        self.__strip__ = neopixel.NeoPixel(pin, self.led_count, auto_write=False)
+        self.__strip__.brightness = self.default_brightness
+        self.__update_strip__()
 
         self.refresh_strip = False
         self.__semaphore__ = Semaphore()
 
-    def setLedColor(self, led, color):
+    def setLedColor(self, index, color):
         self.__semaphore__.acquire()
-        self.strip[led] = color
+        self.colors[index] = color
         self.__semaphore__.release()
 
     def setBrightness(self, brightness):
         self.__semaphore__.acquire()
-        self.strip.brightness = brightness
+        self.__strip__.brightness = brightness
         self.__semaphore__.release()
 
-    def clearStrip(self):
-        for i in range(len(self.strip)):
-            self.strip[i] = self.default_color
+    def __update_strip__(self):
+        for i, [color, multiplier] in enumerate(zip(self.colors, self.ledMultipliers)):
+            self.__strip__[i] = tuple([int(multiplier * val) for val in color])
 
     def __update_in_background__(self):
         t = time()
         wait_ms = 16
         while self.refresh_strip:
-            self.strip.show()
+            self.__strip__.show()
             while t > time():
-                pass
+                self.__update_strip__()
             t += wait_ms / 1000.0
 
     def show_animations(self):
