@@ -22,6 +22,6 @@ settings = {
     },
     "ride head":
     {
-        "color_from_rear": ((0, 255, 0), ),
+        "bright_wave": (),
     }
 }

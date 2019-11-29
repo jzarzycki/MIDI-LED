@@ -31,6 +31,12 @@ class Led:
         self.__strip__.brightness = brightness
         self.__semaphore__.release()
 
+    def setMultiplier(self, index, value):
+        self.__semaphore__.acquire()
+        self.ledMultipliers[index] = value
+        self.__semaphore__.release()
+
+
     def __update_strip__(self):
         for i, [color, multiplier] in enumerate(zip(self.colors, self.ledMultipliers)):
             self.__strip__[i] = tuple([int(multiplier * val) for val in color])

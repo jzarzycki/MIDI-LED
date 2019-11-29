@@ -79,9 +79,23 @@ def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
             pass
         t += wait_ms / 1000.0
 
+def bright_wave(led, velocity, wait_ms=10, wave_len=5):
+    t = time()
+    for start_index, _ in enumerate(led.ledMultipliers):
+        waveMultipliers = led.ledMultipliers[start_index : start_index + wave_len]
+        for i, mul in enumerate(waveMultipliers):
+            led.setMultiplier(start_index + i, 2)
+        while t > time():
+            pass
+        t += wait_ms / 1000.0
+        for i, mul in enumerate(waveMultipliers):
+            led.setMultiplier(start_index + i, 1)
+
+
 functions = {
     "flash": flash,
     "color_from_middle": color_from_middle,
     "color_from_rear": color_from_rear,
     "color_wipe": color_wipe,
+    "bright_wave": bright_wave,
 }
