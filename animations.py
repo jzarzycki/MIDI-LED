@@ -85,12 +85,12 @@ def bright_wave(led, velocity, wait_ms=5, wave_len=6):
         waveMultipliers = led.ledMultipliers[start_index : start_index + wave_len]
         end_index = led.led_count if start_index + wave_len > led.led_count else start_index + wave_len
         indices = list(range(start_index, end_index))
-        led.setMultiplier(indices, [2]*wave_len)
+        led.setMultiplier(indices, [1]*wave_len)
         while t > time():
             pass
         t += wait_ms / 1000.0
         for i, mul in enumerate(waveMultipliers):
-            led.setMultiplier(start_index + i, 1)
+            led.setMultiplier(start_index + i, 0)
 
 
 functions = {

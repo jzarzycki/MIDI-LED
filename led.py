@@ -12,7 +12,7 @@ class Led:
         self.default_brightness = sin(19.0/20.0*pi)
 
         self.colors = [self.default_color] * led_count
-        self.ledMultipliers = [1] * led_count
+        self.ledMultipliers = [0] * led_count
 
         self.__strip__ = neopixel.NeoPixel(pin, self.led_count, auto_write=False)
         self.__strip__.brightness = self.default_brightness
@@ -65,7 +65,15 @@ class Led:
             for i, _ in enumerate(self.__strip__):
                 self.__update_strip__(i)
         elif 0 < i < self.led_count:
-            self.__strip__[i] = tuple([int(self.ledMultipliers[i] * val) for val in self.colors[i]])
+            color = self.colors[i]
+            percent = self.ledMultipliers[i]
+            max_color = max(color)
+            if max_color == 0:
+                pass
+            mul = 255 / max_color
+            f = lambda val : int((mul-1)*val*percent + val)
+            new_color = tuple([f(val) for val in color])
+            self.__strip__[i] = new_color
 
     def __update_in_background__(self, wait_ms = 16):
         t = time()
