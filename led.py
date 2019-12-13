@@ -56,9 +56,9 @@ class Led:
 
         self.__multiplier_semaphore__.release()
 
-    def __dim_color__(self, color):
+    def __dim_color__(self, color, threshold=64):
         max_val = max(color)
-        return tuple([int(127/max_val*val) for val in color])
+        return tuple([int(threshold/max_val*val) for val in color])
 
     def __update_strip__(self, i=None):
         if i is None:
