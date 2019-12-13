@@ -30,11 +30,9 @@ class Led:
             for i, c in zip(index, color):
                 val = self.__dim_color__(c) if dim_color else c
                 self.colors[i] = val
-                self.__update_strip__(i)
         else:
             val = self.__dim_color__(color) if dim_color else color
             self.colors[index] = val
-            self.__update_strip__(index)
 
         self.__color_semaphore__.release()
 
@@ -49,10 +47,8 @@ class Led:
         if  type(index) == list:
             for i, m in zip(index, multipier):
                 self.ledMultipliers[i] = m
-                self.__update_strip__(i)
         else:
             self.ledMultipliers[index] = multipier
-            self.__update_strip__(index)
 
         self.__multiplier_semaphore__.release()
 
@@ -78,6 +74,7 @@ class Led:
     def __update_in_background__(self, wait_ms = 16):
         t = time()
         while self.refresh_strip:
+            self.__update_strip__()
             self.__strip__.show()
             while t > time():
                 pass
