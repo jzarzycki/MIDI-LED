@@ -93,9 +93,9 @@ def bright_wave(led, velocity, wait_ms=10, wave_len=6):
 
     for i in range(num_iter + wave_len):
         if i < length:
-            led.setMultiplier([left_end, right_end], [1] * 2)
+            led.setMultiplier([left_end, right_end], 1)
         if i > wave_len - 1:
-            led.setMultiplier([left_start, right_start], [0] * 2)
+            led.setMultiplier([left_start, right_start], 0)
         while t > time():
             pass
         t += wait_ms / 1000.0

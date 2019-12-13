@@ -47,8 +47,8 @@ class Led:
         self.__multiplier_semaphore__.acquire()
 
         if  type(index) == list:
-            for i, m in zip(index, multipier):
-                self.ledMultipliers[i] = m
+            for i in index:
+                self.ledMultipliers[i] = multipier
                 self.__update_strip__(i)
         else:
             self.ledMultipliers[index] = multipier
