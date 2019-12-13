@@ -28,5 +28,4 @@ if __name__ == '__main__':
     while True:
         note_info = midi.read()
         if note_info:
-            print(note_info)
             leds.handle_input(note_info, settings)

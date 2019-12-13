@@ -2,12 +2,13 @@ import os
 from data.accepted_inputs import accepted_inputs
 
 def get_midi_file_name():
-    output = os.popen('ls /dev/snd | grep -i midi').read()
+    directory = '/dev/snd'
+    output = os.popen(f'ls {directory} | grep -i midi').read()
     if output != '':
         name = ''
         for character in output:
             if character == '\n':
-                return '/dev/snd/' + name
+                return directory + name
             name += character
     return ''
 

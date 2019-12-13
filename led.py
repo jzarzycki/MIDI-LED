@@ -28,9 +28,13 @@ class Led:
 
         if  type(index) == list:
             for i, c in zip(index, color):
-                self.colors[i] = self.__dim_color__(c) if dim_color else c
+                val = self.__dim_color__(c) if dim_color else c
+                self.colors[i] = val
+                self.__update_strip__(i)
         else:
-            self.colors[index] = self.__dim_color__(color) if dim_color else color
+            val = self.__dim_color__(color) if dim_color else color
+            self.colors[index] = val
+            self.__update_strip__(index)
 
         self.__color_semaphore__.release()
 
@@ -39,14 +43,16 @@ class Led:
         self.__strip__.brightness = brightness
         self.__brightness_semaphore__.release()
 
-    def setMultiplier(self, index, value):
+    def setMultiplier(self, index, multipier):
         self.__multiplier_semaphore__.acquire()
 
         if  type(index) == list:
-            for i, v in zip(index, value):
-                self.ledMultipliers[i] = v
+            for i, m in zip(index, multipier):
+                self.ledMultipliers[i] = m
+                self.__update_strip__(i)
         else:
-            self.ledMultipliers[index] = value
+            self.ledMultipliers[index] = multipier
+            self.__update_strip__(index)
 
         self.__multiplier_semaphore__.release()
 
@@ -54,16 +60,19 @@ class Led:
         max_val = max(color)
         return tuple([int(127/max_val*val) for val in color])
 
-    def __update_strip__(self):
-        for i, [color, multiplier] in enumerate(zip(self.colors, self.ledMultipliers)):
-            self.__strip__[i] = tuple([int(multiplier * val) for val in color])
+    def __update_strip__(self, i=None):
+        if i is None:
+            for i, _ in enumerate(self.__strip__):
+                self.__update_strip__(i)
+        elif 0 < i < self.led_count:
+            self.__strip__[i] = tuple([int(self.ledMultipliers[i] * val) for val in self.colors[i]])
 
     def __update_in_background__(self, wait_ms = 16):
         t = time()
         while self.refresh_strip:
             self.__strip__.show()
             while t > time():
-                self.__update_strip__()
+                pass
             t += wait_ms / 1000.0
 
     def show_animations(self):
