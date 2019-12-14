@@ -14,13 +14,13 @@ var drums = {
     "kick": {
         "wave-mid": 60
     },
-    "hi-hat-closed": {
+    "hi-hat closed": {
         "flash": 12
     },
-    "crash": {
+    "crash head": {
         "flash": 70,
     },
-    "ride": {
+    "ride head": {
         "flash": 6,
     },
 };
@@ -39,9 +39,10 @@ var triggers = {
     "hi-hat-closed": "Closed Hi-Hat",
     "hi-hat-open": "Open Hi-Hat",
     "hi-hat-close": "Hi-Hat Pedal",
-    "crash": "Crash",
-    "ride": "Ride",
+    "crash-head": "Crash",
+    "ride-head": "Ride",
     "snare": "Snare",
+    "snare rim": "Snare Rim",
     "kick": "Kick",
     "tom1": "Tom 1",
     "tom2": "Tom 2",
@@ -51,7 +52,7 @@ var triggers = {
 var animations = {
     "flash": "Flash",
     "bright-wave": "Brightness Wave",
-    "wave": "Color Wave",
+    "color-from-middle": "Color Wave",
     "instant": "Instant Color",
 };
 

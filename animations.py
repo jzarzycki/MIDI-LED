@@ -6,7 +6,6 @@ semaphore = Semaphore()
 
 def instant_color(led, velocity, *color):
     led.switchDefaultColor()
-    print(led.default_color)
     i = list(range(led.led_count))
     led.setLedColor(i, [led.default_color] * led.led_count)
 
@@ -30,8 +29,9 @@ def __fade__(x, y, nr, out_of):
         li.append(int(i - (i-j)*f(nr/out_of)))
     return tuple(li)
 
-def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
+def color_from_middle(led, velocity, width=15, duration_ms = 200):
     t = time()
+    color = led.default_color_anim
     middle = led.led_count // 2
     offset = led.led_count % 2
     length = int(velocity / 127 * width)
@@ -58,27 +58,6 @@ def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
             pass
         t += wait_ms / 1000.0
     led.setLedColor(middle, led.default_color)
-
-def color_from_rear(led, velocity, color, width=15, duration_ms = 100):
-    t = time()
-    length = int(velocity / 127 * width)
-    wait_ms = duration_ms / (2*length)
-    if length < 5:
-        length = 5
-    if length > 15:
-        length = 15
-    for i in range(length):
-        led.setLedColor(i, color)
-        led.setLedColor(led.led_count - i - 1, color)
-        while t > time():
-            pass
-        t += wait_ms / 1000.0
-    for i in range(length):
-        led.setLedColor(length - i - 1, led.default_color)
-        led.setLedColor(led.led_count - length + i, led.default_color)
-        while t > time():
-            pass
-        t += wait_ms / 1000.0
 
 def bright_wave(led, velocity, wait_ms=10, wave_len=6):
     t = time()
@@ -107,8 +86,7 @@ def bright_wave(led, velocity, wait_ms=10, wave_len=6):
 
 functions = {
     "flash": flash,
-    "color_from_middle": color_from_middle,
-    "color_from_rear": color_from_rear,
-    "instant_color": instant_color,
-    "bright_wave": bright_wave,
+    "color-from-middle": color_from_middle,
+    "instant": instant_color,
+    "bright-wave": bright_wave,
 }

@@ -13,6 +13,10 @@ class Led:
         self.current_index = 0
         self.default_color = self.__dim_color__(default_color)
 
+        self.color_cycle_anim = [(255,0,255),(0,255,255),(255,255,255),(255,255,0)]
+        self.current_index_anim = 0
+        self.default_color_anim = self.__dim_color__(self.color_cycle_anim[0])
+
         self.default_brightness = sin(19.0/20.0*pi)
 
         self.colors = [self.default_color] * led_count
@@ -62,7 +66,9 @@ class Led:
 
     def switchDefaultColor(self):
         self.current_index = (self.current_index + 1) % len(self.color_cycle)
-        self.default_color = self.color_cycle[self.current_index]
+        self.default_color = self.__dim_color__(self.color_cycle[self.current_index])
+        self.current_index_anim = (self.current_index + 1) % len(self.color_cycle)
+        self.default_color_anim = self.__dim_color__(self.color_cycle_anim[self.current_index_anim])
 
     def __dim_color__(self, color, threshold=64):
         max_val = max(color)

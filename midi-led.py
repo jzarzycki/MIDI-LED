@@ -9,12 +9,13 @@ from midi import Midi, get_midi_file_name
 from animation_settings import settings
 
 import socket_server
-socket_server.init(settings)
-Thread(target=socket_server.run_server, args=()).start()
 
 led_pin = board.D18
 led_count = 60
 leds = Led(led_pin, led_count, (127,0,0))
+
+socket_server.init(leds, settings)
+Thread(target=socket_server.run_server, args=()).start()
 
 midi_file = ''
 while midi_file == '':

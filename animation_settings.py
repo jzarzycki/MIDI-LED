@@ -1,28 +1,28 @@
 settings = {
     "snare":
     {
-        "color_from_middle": ((255, 255, 255), ),
+        "color-from-middle": (),
         "flash": (10,)
     },
     "kick":
     {
         "flash": (10,),
-        "instant_color": (),
+        "instant": (),
     },
     "tom1":
     {
-        "color_from_middle": ((0, 0, 255), ),
+        "color-from-middle": (),
     },
     "tom2":
     {
-        "color_from_middle": ((0, 127, 127), ),
+        "color-from-middle": (),
     },
     "tom3":
     {
-        "color_from_middle": ((0, 255, 0), ),
+        "color-from-middle": (),
     },
-    "ride head":
+    "ride-head":
     {
-        "bright_wave": (),
+        "bright-wave": (),
     }
 }
