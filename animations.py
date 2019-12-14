@@ -4,11 +4,11 @@ from threading import Semaphore
 
 semaphore = Semaphore()
 
-def color_wipe(led, color):
-    for i in range(led.led_count):
-        setLedColor(i, color)
-        wait_ms = 10
-        sleep(wait_ms / 1000.0)
+def instant_color(led, velocity, *color):
+    led.switchDefaultColor()
+    print(led.default_color)
+    i = list(range(led.led_count))
+    led.setLedColor(i, [led.default_color] * led.led_count)
 
 def flash(led, velocity, wait_ms=10, steps = 10):
     t = time()
@@ -108,6 +108,6 @@ functions = {
     "flash": flash,
     "color_from_middle": color_from_middle,
     "color_from_rear": color_from_rear,
-    "color_wipe": color_wipe,
+    "instant_color": instant_color,
     "bright_wave": bright_wave,
 }

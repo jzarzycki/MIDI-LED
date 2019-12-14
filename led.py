@@ -8,7 +8,11 @@ from animations import functions
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
         self.led_count = led_count
+
+        self.color_cycle = [(255,255,0),(255,0,255),(0,255,255),(255,255,255)]
+        self.current_index = 0
         self.default_color = self.__dim_color__(default_color)
+
         self.default_brightness = sin(19.0/20.0*pi)
 
         self.colors = [self.default_color] * led_count
@@ -55,6 +59,10 @@ class Led:
             self.__update_strip__(index)
 
         self.__multiplier_semaphore__.release()
+
+    def switchDefaultColor(self):
+        self.current_index = (self.current_index + 1) % len(self.color_cycle)
+        self.default_color = self.color_cycle[self.current_index]
 
     def __dim_color__(self, color, threshold=64):
         max_val = max(color)

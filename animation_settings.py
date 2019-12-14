@@ -6,7 +6,8 @@ settings = {
     },
     "kick":
     {
-        "flash": (10,)
+        "flash": (10,),
+        "instant_color": (),
     },
     "tom1":
     {
