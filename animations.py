@@ -30,7 +30,7 @@ def __fade__(x, y, nr, out_of):
         li.append(int(i - (i-j)*f(nr/out_of)))
     return tuple(li)
 
-def color_from_middle(led, velocity, color, width=15, duration_ms = 10000):
+def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
     t = time()
     middle = led.led_count // 2
     offset = led.led_count % 2
