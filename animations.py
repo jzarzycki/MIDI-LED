@@ -24,12 +24,13 @@ def flash(led, velocity, wait_ms=10, steps = 10):
     semaphore.release()
 
 def __fade__(x, y, nr, out_of):
+    f = lambda x : sqrt((2*(x-0.5))) if x > 0.5 else 0
     li = []
     for i, j in zip(x, y):
-        li.append(int(i - (i-j)*(nr/out_of)))
+        li.append(int(i - (i-j)*f(nr/out_of)))
     return tuple(li)
 
-def color_from_middle(led, velocity, color, width=15, duration_ms = 100):
+def color_from_middle(led, velocity, color, width=15, duration_ms = 10000):
     t = time()
     middle = led.led_count // 2
     offset = led.led_count % 2
