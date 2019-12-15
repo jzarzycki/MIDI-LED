@@ -3,12 +3,12 @@
 import board
 from threading import Thread
 
-from led import Led
-from midi import Midi, get_midi_file_name
+from src.led import Led
+from src.midi import Midi, get_midi_file_name
 
-from animation_settings import settings
+from src.animation_settings import settings
 
-from socket_server import Server
+from src.socket_server import Server
 
 led_pin = board.D18
 led_count = 60

@@ -3,7 +3,7 @@ from threading import Thread
 from time import time
 from threading import Semaphore
 import neopixel
-from animations import functions
+from src.animations import functions
 
 class Led:
     def __init__(self, pin, led_count, default_color=(0,0,0)):
