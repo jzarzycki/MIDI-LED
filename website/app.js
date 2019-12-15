@@ -8,20 +8,45 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 var drums = {
-    "snare": {
-        "flash": 40
+    "snare":
+    {
+        "bright-wave": ["#ffff00","#ff00ff","#00ffff","#ffffff"],
     },
-    "kick": {
-        "wave-mid": 60
+    "kick":
+    {
+        "flash": 10,
+        "instant": ["#00ffff","#ffffff","#ffff00","#ff00ff"],
     },
-    "hi-hat closed": {
-        "flash": 12
+    "tom1":
+    {
+        "color-from-middle": ["#ffff00","#ff00ff","#00ffff","#ffffff"],
+        "flash": 10,
     },
-    "crash head": {
-        "flash": 70,
+    "tom2":
+    {
+        "color-from-middle": ["#ffff00","#ff00ff","#00ffff","#ffffff"],
+        "flash": 10,
     },
-    "ride head": {
-        "flash": 6,
+    "tom3":
+    {
+        "color-from-middle": ["#ffff00","#ff00ff","#00ffff","#ffffff"],
+        "flash": 10,
+    },
+    "ride-head":
+    {
+        "color-from-middle": ["#ffff00","#ff00ff","#00ffff","#ffffff"],
+    },
+    "crash-head":
+    {
+        "flash": 30,
+    },
+    "hi-hat-open":
+    {
+        "flash": 30,
+    },
+    "hi-hat-closed":
+    {
+        "flash": 5,
     },
 };
 
@@ -42,7 +67,7 @@ var triggers = {
     "crash-head": "Crash",
     "ride-head": "Ride",
     "snare": "Snare",
-    "snare rim": "Snare Rim",
+    "snare-rim": "Snare Rim",
     "kick": "Kick",
     "tom1": "Tom 1",
     "tom2": "Tom 2",
