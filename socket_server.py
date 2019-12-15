@@ -7,12 +7,19 @@ __HOST__ = '127.0.1.1'
 __PORT__ = 65432            # can use ports starting from 1024
 __data__ = {}
 __led__ = {}
+__server_on__ = False
 
 def init(led, data):
     global __led__
     __led__ = led
     global __data__
     __data__ = data
+    global __server_on__
+    __server_on__ = True
+
+def shutdown():
+    global __server_on__
+    __server_on__ = False
 
 def convertColor(color):
     result = []
@@ -57,10 +64,11 @@ def __handle_data__(data):
                         __data__[trigger][name] = (arg,)
 
 def run_server():
+    global __server_on__
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((__HOST__, __PORT__))
         s.listen()
-        while True:
+        while __server_on__:
             data = None
             conn, addr = s.accept()
             with conn:

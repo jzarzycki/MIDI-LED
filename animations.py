@@ -29,7 +29,7 @@ def __fade__(x, y, nr, out_of):
         li.append(int(i - (i-j)*f(nr/out_of)))
     return tuple(li)
 
-def color_from_middle(led, velocity, width=15, duration_ms = 200):
+def color_from_middle(led, velocity, width=20, duration_ms = 150):
     t = time()
     color = led.default_color_anim
     middle = led.led_count // 2

@@ -26,10 +26,14 @@ class Led:
         self.__strip__.brightness = self.default_brightness
         self.__update_strip__()
 
-        self.refresh_strip = False
+        self.__refresh_strip__ = False
         self.__color_semaphore__ = Semaphore()
         self.__brightness_semaphore__ = Semaphore()
         self.__multiplier_semaphore__ = Semaphore()
+
+    def __del__(self):
+        print('del led')
+        self.__refresh_strip__ = False
 
     def setLedColor(self, index, color, dim_color=True):
         self.__color_semaphore__.acquire()
@@ -75,30 +79,36 @@ class Led:
         return tuple([int(threshold/max_val*val) for val in color])
 
     def __update_strip__(self, i=None):
-        if i is None:
-            for i, _ in enumerate(self.__strip__):
-                self.__update_strip__(i)
-        elif 0 < i < self.led_count:
-            color = self.colors[i]
-            percent = self.ledMultipliers[i]
-            max_color = max(color)
-            if max_color == 0:
-                pass
-            mul = 255 / max_color
-            f = lambda val : int((mul-1)*val*percent + val)
-            new_color = tuple([f(val) for val in color])
-            self.__strip__[i] = new_color
+        try:
+            if i is None:
+                for i, _ in enumerate(self.__strip__):
+                    self.__update_strip__(i)
+            elif 0 < i < self.led_count:
+                color = self.colors[i]
+                percent = self.ledMultipliers[i]
+                max_color = max(color)
+                if max_color == 0:
+                    pass
+                mul = 255 / max_color
+                f = lambda val : int((mul-1)*val*percent + val)
+                new_color = tuple([f(val) for val in color])
+                self.__strip__[i] = new_color
+        except KeyboardInterrupt:
+                raise
 
     def __update_in_background__(self, wait_ms = 16):
         t = time()
-        while self.refresh_strip:
-            self.__strip__.show()
-            while t > time():
-                pass
-            t += wait_ms / 1000.0
+        while self.__refresh_strip__:
+            try:
+                self.__strip__.show()
+                while t > time():
+                    pass
+                t += wait_ms / 1000.0
+            except KeyboardInterrupt:
+                raise
 
     def show_animations(self):
-        self.refresh_strip = True
+        self.__refresh_strip__ = True
         Thread(target=self.__update_in_background__, args=()).start()
 
     def handle_input(self, note_info, settings):
