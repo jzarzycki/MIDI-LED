@@ -42,7 +42,7 @@ class Midi:
             else:
                 drumName = 'undefined'
                 # debug
-                print(hex(pitch))
+                print('input not accepted: ', hex(pitch))
                 return
 
             # handle note on/off event

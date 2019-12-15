@@ -32,7 +32,6 @@ class Led:
         self.__multiplier_semaphore__ = Semaphore()
 
     def __del__(self):
-        print('del led')
         self.__refresh_strip__ = False
 
     def setLedColor(self, index, color, dim_color=True):
