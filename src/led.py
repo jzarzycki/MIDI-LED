@@ -75,6 +75,8 @@ class Led:
 
     def __dim_color__(self, color, threshold=64):
         max_val = max(color)
+        if max_val <= 0:
+            return (0, 0, 0)
         return tuple([int(threshold/max_val*val) for val in color])
 
     def __update_strip__(self, i=None):
