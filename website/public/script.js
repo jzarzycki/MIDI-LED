@@ -34,7 +34,7 @@ var changeInputType;
     var sliderActive = isSliderActive();
     // change label and input type
     var label = document.querySelector('label[for="option"]');
-    label.textContent = sliderActive ? 'Brightness: ' : 'Colors:' ; 
+    label.textContent = sliderActive ? 'Length: ' : 'Colors:' ; 
     // hide and disable unwanted inputs
     var inputs = document.querySelectorAll('#option input');
     if (sliderActive != sliderActiveOld){
