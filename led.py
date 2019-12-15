@@ -13,7 +13,7 @@ class Led:
         self.current_index = 0
         self.default_color = self.__dim_color__(default_color)
 
-        self.color_cycle_anim = [(255,0,255),(0,255,255),(255,255,255),(255,255,0)]
+        self.color_cycle_anim = [(0,255,255),(255,255,255),(255,255,0), (255,0,255)]
         self.current_index_anim = 0
         self.default_color_anim = self.__dim_color__(self.color_cycle_anim[0])
 
