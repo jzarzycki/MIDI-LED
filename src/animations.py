@@ -5,16 +5,16 @@ from threading import Semaphore
 semaphore = Semaphore()
 
 def instant_color(led, velocity, *color):
-    led.switchDefaultColor()
+    led.switch_default_color()
     i = list(range(led.led_count))
-    led.setLedColor(i, [led.default_color] * led.led_count)
+    led.set_led_color(i, [led.default_color] * led.led_count)
 
 def flash(led, velocity, wait_ms=10, steps = 10):
     t = time()
     for i in range(steps):
         percent = sin(i / steps * pi)
         brightness = velocity/127 * (1 - led.default_brightness) + led.default_brightness
-        led.setBrightness(brightness * percent)
+        led.set_brightness(brightness * percent)
         while t > time():
             pass
         t += wait_ms / 1000.0
@@ -39,25 +39,25 @@ def color_from_middle(led, velocity, width=20, duration_ms = 150):
         length = 3
     wait_ms = duration_ms / (2*length)
     if offset:
-        led.setLedColor(middle, color)
+        led.set_led_color(middle, color)
         while t > time():
             pass
         t += wait_ms / 1000.0
     for i in range(length):
         new_color = __fade__(color, led.default_color, i + 1, length)
-        led.setLedColor(middle + i + offset, new_color)
-        led.setLedColor(middle - i - 1, new_color)
+        led.set_led_color(middle + i + offset, new_color)
+        led.set_led_color(middle - i - 1, new_color)
         while t > time():
             pass
         t += wait_ms / 1000.0
     start = middle - length
     for i in range(length):
-        led.setLedColor(start + i, led.default_color)
-        led.setLedColor(start + 2*length - i, led.default_color)
+        led.set_led_color(start + i, led.default_color)
+        led.set_led_color(start + 2 * length - i, led.default_color)
         while t > time():
             pass
         t += wait_ms / 1000.0
-    led.setLedColor(middle, led.default_color)
+    led.set_led_color(middle, led.default_color)
 
 def bright_wave(led, velocity, wait_ms=10, wave_len=6):
     t = time()
@@ -73,9 +73,9 @@ def bright_wave(led, velocity, wait_ms=10, wave_len=6):
 
     for i in range(num_iter + wave_len):
         if i < length:
-            led.setMultiplier([left_end, right_end], 1)
+            led.set_multiplier([left_end, right_end], 1)
         if i > wave_len - 1:
-            led.setMultiplier([left_start, right_start], 0)
+            led.set_multiplier([left_start, right_start], 0)
         while t > time():
             pass
         t += wait_ms / 1000.0

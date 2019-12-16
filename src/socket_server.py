@@ -3,7 +3,15 @@
 import socket
 import json
 
-class Server():
+
+def convert_color(color):
+    result = []
+    for i in range(3):
+        result.append(int("0x"+color[2*i+1:2*i+3], 0))
+    return tuple(result)
+
+
+class Server:
     __HOST__ = '127.0.1.1'
     __PORT__ = 65432            # can use ports starting from 1024
     __data__ = {}
@@ -18,12 +26,6 @@ class Server():
     def __del__(self):
         self.__server_on__ = False
 
-    def convertColor(self, color):
-        result = []
-        for i in range(3):
-            result.append(int("0x"+color[2*i+1:2*i+3], 0))
-        return tuple(result)
-
     def __handle_data__(self, data):
         for trigger, animation in data.items():
             if animation is None:
@@ -35,7 +37,7 @@ class Server():
                         # color cycling animation
                         colors = []
                         for color in args:
-                            colors.append(self.convertColor(color))
+                            colors.append(convert_color(color))
                         if name == 'color-from-middle':
                             self.__led__.color_cycle_anim = colors
                             self.__led__.current_index_anim = 0

@@ -12,9 +12,9 @@ from src.socket_server import Server
 
 led_pin = board.D18
 led_count = 60
-leds = Led(led_pin, led_count, (127,0,0))
+led_strip = Led(led_pin, led_count, (127, 0, 0))
 
-server = Server(leds, settings)
+server = Server(led_strip, settings)
 Thread(target=server.run_server, args=()).start()
 
 def open_file():
@@ -25,10 +25,11 @@ def open_file():
     return Midi(midi_file)
 midi = open_file()
 
-leds.show_animations()
+led_strip.show_animations()
 
 def main():
-    global midi, leds
+    global midi, led_strip
+    note_info = None
     try:
         while True:
             try:
@@ -40,11 +41,11 @@ def main():
                 else:
                     raise e
             if note_info:
-                leds.handle_input(note_info, settings)
+                led_strip.handle_input(note_info, settings)
     except KeyboardInterrupt:
-        global socket_server
+        global server
         del server
-        del leds
+        del led_strip
         del midi
         return
 

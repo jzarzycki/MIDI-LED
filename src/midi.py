@@ -36,19 +36,15 @@ class Midi:
             except KeyboardInterrupt:
                 raise
 
-            drumName = None
+            drum_name = None
             if pitch in accepted_inputs:
-                drumName = accepted_inputs[pitch]
+                drum_name = accepted_inputs[pitch]
             else:
-                drumName = 'undefined'
-                # debug
+                drum_name = 'undefined'
+                # alarm user, that they need to add this input to accepted_inputs
                 print('input not accepted: ', hex(pitch))
                 return
 
-            # handle note on/off event
-            # note on
+            # handle note on event
             if velocity:
-                return drumName, velocity
-            # note off
-            # else:
-                # return 'pitch off', 0
+                return drum_name, velocity
