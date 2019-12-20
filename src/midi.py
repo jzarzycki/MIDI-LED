@@ -20,27 +20,18 @@ class Midi:
         self.f.close()
 
     def check_for_note_event(self):
-        try:
-            byte = self.f.read(1)
-        except KeyboardInterrupt:
-            raise
+        byte = self.f.read(1)
         if byte == b'\x99':
             return True
 
     def read(self):
         if self.check_for_note_event():
-            # read which type of drum was hit (pitch)
-            # and with what strength (velocity)
-            try:
-                pitch, velocity = self.f.read(2)
-            except KeyboardInterrupt:
-                raise
+            pitch, velocity = self.f.read(2)
 
             drum_name = None
             if pitch in accepted_inputs:
                 drum_name = accepted_inputs[pitch]
             else:
-                drum_name = 'undefined'
                 # alarm user, that they need to add this input to accepted_inputs
                 print('input not accepted: ', hex(pitch))
                 return
