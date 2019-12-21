@@ -81,33 +81,27 @@ class Led:
         self.default_color_anim = __dim_color__(self.color_cycle_anim[self.current_index_anim])
 
     def __update_strip__(self, i=None):
-        try:
-            if i is None:
-                for i, _ in enumerate(self.__strip__):
-                    self.__update_strip__(i)
-            elif 0 < i < self.led_count:
-                color = self.colors[i]
-                percent = self.ledMultipliers[i]
-                max_color = max(color)
-                if max_color == 0:
-                    pass
-                mul = 255 / max_color
-                f = lambda val : int((mul-1)*val*percent + val)
-                new_color = tuple([f(val) for val in color])
-                self.__strip__[i] = new_color
-        except KeyboardInterrupt:
-                raise
+        if i is None:
+            for i, _ in enumerate(self.__strip__):
+                self.__update_strip__(i)
+        elif 0 < i < self.led_count:
+            color = self.colors[i]
+            percent = self.ledMultipliers[i]
+            max_color = max(color)
+            if max_color == 0:
+                pass
+            mul = 255 / max_color
+            f = lambda val : int((mul-1)*val*percent + val)
+            new_color = tuple([f(val) for val in color])
+            self.__strip__[i] = new_color
 
     def __update_in_background__(self, wait_ms = 16):
         t = time()
         while self.__refresh_strip__:
-            try:
-                self.__strip__.show()
-                while t > time():
-                    pass
-                t += wait_ms / 1000.0
-            except KeyboardInterrupt:
-                raise
+            self.__strip__.show()
+            while t > time():
+                pass
+            t += wait_ms / 1000.0
 
     def show_animations(self):
         self.__refresh_strip__ = True

@@ -30,24 +30,17 @@ led_strip.show_animations()
 def main():
     global midi, led_strip
     note_info = None
-    try:
-        while True:
-            try:
-                note_info = midi.read()
-            except OSError as e:
-                if e.strerror == "No such device":
-                    print('Midi file no longer available, searching for a new one')
-                    midi = open_file()
-                else:
-                    raise e
-            if note_info:
-                led_strip.handle_input(note_info, settings)
-    except KeyboardInterrupt:
-        global server
-        del server
-        del led_strip
-        del midi
-        return
+    while True:
+        try:
+            note_info = midi.read()
+        except OSError as e:
+            if e.strerror == "No such device":
+                print('Midi file no longer available, searching for a new one')
+                midi = open_file()
+            else:
+                raise e
+        if note_info:
+            led_strip.handle_input(note_info, settings)
 
 if __name__ == '__main__':
     main()
