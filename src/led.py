@@ -1,6 +1,7 @@
 from math import sin, pi
 from threading import Thread, Semaphore
 from time import time
+import neopixel
 from src.animations import functions
 
 
