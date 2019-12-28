@@ -1,6 +1,5 @@
 from time import time, sleep
 from math import sin, pi, sqrt
-from threading import Semaphore
 
 def instant_color(led, velocity, *color):
     led.switch_default_color()
