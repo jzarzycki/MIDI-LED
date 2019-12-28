@@ -1,7 +1,7 @@
 from time import time, sleep
 from math import sin, pi, sqrt
 
-def instant_color(led, velocity, *color):
+def instant_color(led, velocity):
     led.switch_default_color()
     i = list(range(led.led_count))
     led.set_led_color(i, [led.default_color] * led.led_count)
