@@ -51,7 +51,7 @@
         <h2><%= trigger %></h2>
         <% for (let animation in drums[trigger]){ %>
             <li id=<%= trigger + '_' + animation %> data-value=<%= drums[trigger][animation] %>>
-                <span><%= animation %></span>
+                <span><%= animation %></span><br>
                 <%
                     let arr = drums[trigger][animation];
                     let returnValue = '';
