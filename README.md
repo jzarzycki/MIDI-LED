@@ -9,4 +9,6 @@ sudo python3 midi-led.py
 
 
 # Current Status
-[![Project presentation](https://img.youtube.com/vi/BCv3Xc4DYOM/0.jpg)](https://www.youtube.com/watch?v=BCv3Xc4DYOM)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=ZgxArVfICzk
+" target="_blank"><img src="http://img.youtube.com/vi/ZgxArVfICzk/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
